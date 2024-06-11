@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            background-color: rgb(135, 255, 171);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .maindDiv {
+            display: grid;
+            gap: 10px;
+            padding: 10px;
+            height: auto;
+            background-color: aqua;
+            border-radius: 20px;
+            grid-template-columns: auto auto auto auto;
+        }
+        .maindDiv > div {
+            padding: 20px;
+            text-align: center;
+            font-size: 30px;
+            background-color: white;
+            box-shadow: 0px 2px gray;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        .item1 {
+            grid-column: 1/5;
+            height: 55px;
+        }
+        .buttonDivs {
+            width: 80px;
+        }
+    </style>
+</head>
+<body>
+    <div class="maindDiv">
+        <div class="item1"><p id="output"></p></div>
+        <div class="buttonDivs">1</div>
+        <div class="buttonDivs">2</div>
+        <div class="buttonDivs">3</div>
+        <div class="buttonDivs" style="background-color: rgb(255, 255, 106);">+</div>
+        <div class="buttonDivs">4</div>
+        <div class="buttonDivs">5</div>
+        <div class="buttonDivs">6</div>
+        <div class="buttonDivs" style="background-color: rgb(255, 255, 106);">-</div>
+        <div class="buttonDivs">7</div>
+        <div class="buttonDivs">8</div>
+        <div class="buttonDivs">9</div>
+        <div class="buttonDivs" style="background-color: rgb(255, 255, 106);">* </div>
+        <div class="buttonDivs" style="background-color: rgb(255, 106, 106);">C</div>
+        <div class="buttonDivs">0</div>
+        <div class="buttonDivs">=</div>
+        <div class="buttonDivs" style="background-color: rgb(255, 255, 106);">/</div>
+    </div>
+    <script>
+        const output = document.getElementById('output');
+        let currentInput = '';
+        let operator = null;
+        let firstOperand = null;
+
+        const buttons = document.querySelectorAll('.buttonDivs');
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                const value = button.textContent.trim();
+
+                if (!isNaN(value)) {
+                    currentInput += value;
+                    output.textContent = currentInput;
+                } else if (value === 'C') {
+                    currentInput = '';
+                    operator = null;
+                    firstOperand = null;
+                    output.textContent = '';
+                } else if (value === '=') {
+                    if (firstOperand !== null && operator !== null && currentInput !== '') {
+                        const result = operate(firstOperand, operator, parseFloat(currentInput));
+                        output.textContent = result;
+                        currentInput = '';
+                        operator = null;
+                        firstOperand = null;
+                    }
+                } else {
+                    if (currentInput !== '') {
+                        if (firstOperand === null) {
+                            firstOperand = parseFloat(currentInput);
+                        } else {
+                            firstOperand = operate(firstOperand, operator, parseFloat(currentInput));
+                        }
+                        currentInput = '';
+                        operator = value;
+                        output.textContent = firstOperand;
+                    }
+                }
+            });
+        });
+
+        function operate(a, op, b) {
+            switch (op) {
+                case '+': return a + b;
+                case '-': return a - b;
+                case '*': return a * b;
+                case '/': return a / b;
+                default: return 0;
+            }
+        }
+    </script>
+</body>
+</html>

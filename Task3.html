@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{background-color: blue;    text-align: center;}
+        p {
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <p>set you mode:</p>
+    <select name="" id="mode" onchange="onChange()">
+        <option value="blue">blue</option>
+        <option value="black">Black</option>
+        <option value="white">White</option>
+    </select>
+    <script>
+      function onChange(){
+        var color=document.getElementById('mode').value;
+        var body=document.body;
+        body.style.backgroundColor=color;
+        var p = document.querySelector('p');
+        if (color === 'black') {
+                p.style.color = 'white';
+            } else if (color === 'white') {
+                p.style.color = 'black';
+            } else {
+                p.style.color = 'black'; // default text color for other backgrounds
+            }
+        }
+      
+    </script>
+</body>
+</html>
